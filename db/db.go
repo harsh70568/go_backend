@@ -43,3 +43,8 @@ func GetPort() string {
 	ServerPort := viper.GetString("PORT")
 	return ServerPort
 }
+
+func GetJWTSecret() []byte {
+	token := []byte(viper.GetString("JWT_SECRET"))
+	return token
+}

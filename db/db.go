@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"go_edtech_backend/models"
 	"log"
 
 	"github.com/spf13/viper"
@@ -34,10 +35,16 @@ func ConnectDB() {
 	}
 	DB = db
 
+	DB.AutoMigrate(&models.User{})
 	fmt.Println("Connected to database succesfully")
 }
 
 func GetPort() string {
 	ServerPort := viper.GetString("PORT")
 	return ServerPort
+}
+
+func GetJWTSecret() []byte {
+	token := []byte(viper.GetString("JWT_SECRET"))
+	return token
 }

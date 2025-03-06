@@ -13,7 +13,7 @@ func main() {
 	db.ConnectDB()
 
 	/* Set up a router */
-	router := gin.New()
+	router := gin.Default()
 
 	/* Setting up routes */
 	routes.UserRoutes(router)

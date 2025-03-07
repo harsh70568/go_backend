@@ -39,3 +39,11 @@ func generateJWT(email string, expiryTime time.Time) (string, error) {
 	jwtSecret := db.GetJWTSecret()
 	return token.SignedString(jwtSecret)
 }
+
+func VerifyToken(token string) (*jwt.Token, error) { // expired or not
+	key := db.GetJWTSecret()
+	tk, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+		return key, nil
+	})
+	return tk, err
+}

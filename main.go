@@ -17,6 +17,7 @@ func main() {
 
 	/* Setting up routes */
 	routes.UserRoutes(router)
+	routes.CourseRoutes(router)
 
 	/* Starting the server */
 	err := router.Run(db.GetPort())

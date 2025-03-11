@@ -36,6 +36,7 @@ func ConnectDB() {
 	DB = db
 
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Course{})
 	fmt.Println("Connected to database succesfully")
 }
 

@@ -4,6 +4,7 @@ import (
 	"go_edtech_backend/db"
 	"go_edtech_backend/models"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -60,5 +61,29 @@ func GetCourseByID() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"course": course})
+	}
+}
+
+func DeleteCourse() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		courseID := c.Param("courseID")
+		if courseID == "" {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "course ID is not valid"})
+			c.Abort()
+			return
+		}
+
+		id, err := strconv.ParseUint(courseID, 10, 32)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid course ID"})
+			return
+		}
+
+		if err := db.DB.Delete(&models.Course{}, uint(id)).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to delete course"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "course deleted succesfully"})
 	}
 }
